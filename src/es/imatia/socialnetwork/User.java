@@ -154,7 +154,7 @@ public class User {
 				} else {
 					postListString += ((Video) uniPost).getTitle() + "\n";
 				}
-				postListString += uniPost.getPublishDate() + "\t" + uniPost.getCommentList().size() + " comentarios";
+				postListString += uniPost.getPublishDate() + "\t" + uniPost.getCommentList().size() + " comentarios\n";
 			}
 		} else {
 			System.out.print("\nNo tienes ningún post todavía\n");

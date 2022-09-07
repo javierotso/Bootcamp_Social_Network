@@ -198,7 +198,8 @@ public class Main {
 	
 	public static void deletePost(User user) {
 		if(!user.getUserPosts().isEmpty()) {
-			user.showPostList();
+			System.out.print(user.showPostList());
+			System.out.print("\n¿Indique el número de post que desea eliminar (0 para cancelar): ");
 			if(user.deletePost(readPositiveInt())) {
 				System.out.print("\nPost eliminado correctamente\n");
 			}else {
