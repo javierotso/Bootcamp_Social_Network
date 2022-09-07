@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 public class User {
 	private String userName;
 	private HashMap<String, User> followedList;
@@ -100,9 +98,9 @@ public class User {
 						// Finalmente, si el post tiene comentarios, recorremos la lista buscando alguno
 						// del usuario actual para eliminarlos
 						if(!post.getCommentList().isEmpty()) {
-							List commentList = post.getCommentList();
+							List<Comment> commentList = post.getCommentList();
 							for(int i = 0; i < commentList.size(); i++) {
-								if(((Comment) commentList.get(i)).getCommentOwner().equals(this)) {
+								if(commentList.get(i).getCommentOwner().equals(this)) {
 									commentList.remove(i);
 								}
 							}
