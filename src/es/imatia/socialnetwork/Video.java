@@ -1,5 +1,8 @@
 package es.imatia.socialnetwork;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 public class Video extends Post{
 	private final int DEFAULT_QUALITY = 1080;
 	private final int DEFAULT_DURATION = 60;
@@ -7,6 +10,14 @@ public class Video extends Post{
 	private int duration;
 	private int quality;
 	private String title;
+	
+	public Video(LocalDateTime publishDate, ArrayList<Comment> commentList,int duration, int quality, String title) {
+		super(publishDate, commentList);
+		this.setDuration(duration);
+		this.setQuality(quality);
+		this.setTitle(title);
+	}
+	
 	
 	public Video(int duration, int quality, String title) {
 		super();

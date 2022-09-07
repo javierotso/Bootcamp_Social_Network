@@ -11,7 +11,12 @@ public abstract class Post {
 		this.setPublishDate(LocalDateTime.now());
 		this.commentList = new ArrayList<Comment>();
 	}
-	
+
+	public Post(LocalDateTime publishDate, ArrayList<Comment> commentList) {
+		this.setPublishDate(publishDate);
+		this.commentList = commentList;
+	}
+
 	public LocalDateTime getPublishDate() {
 		return publishDate;
 	}
@@ -23,5 +28,6 @@ public abstract class Post {
 	public ArrayList<Comment> getCommentList() {
 		return commentList;
 	}
+	
 
 }

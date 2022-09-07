@@ -1,6 +1,9 @@
 package es.imatia.socialnetwork;
 
-public class Picture extends Post {
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class Image extends Post {
 
 	private int DEFAULT_VALUE = 5;
 	
@@ -8,8 +11,15 @@ public class Picture extends Post {
 	private int height;
 	private int width;
 
-	public Picture(String title, int height, int width) {
+	public Image(String title, int height, int width) {
 		super();
+		this.setTitle(title);
+		this.setHeight(height);
+		this.setWidth(width);
+	}
+	
+	public Image(LocalDateTime publishDate, ArrayList<Comment> commentList, String title, int height, int width) {
+		super(publishDate, commentList);
 		this.setTitle(title);
 		this.setHeight(height);
 		this.setWidth(width);
