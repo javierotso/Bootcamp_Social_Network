@@ -143,7 +143,7 @@ public class User {
 		}
 		return stringCommentList;
 	}
-
+ 
 	public boolean deleteComment(HashMap<String, User> userList, Comment commentToDelete) {
 		boolean deleted = false;
 		for (User user : userList.values()) {
