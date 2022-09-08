@@ -260,7 +260,7 @@ public class User {
 		 * Convertimos Array de object a array de post
 		 */
 		if (!this.getFollowedPostList().isEmpty()) {
-			wall += "\n####################################\n\tMURO DE" + this.getUserName().toUpperCase()
+			wall += "\n####################################\n\tMURO DE " + this.getUserName().toUpperCase()
 					+ "\t\n####################################\n";
 			Object[] auxPostList = this.getFollowedPostList().values().toArray();
 			List<Post> postList = new ArrayList<>();
