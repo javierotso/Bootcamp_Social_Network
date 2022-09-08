@@ -133,8 +133,8 @@ public class User {
 							showedPost = true;
 						}
 						commentCount++;
-						stringCommentList += "\nComentario " + commentCount + "\t" + comment.getCommentOwner().getUserName()
-								+ "\n\t" + comment.getCommentBody() + "\n";
+						stringCommentList += "\nComentario " + commentCount + "\t"
+								+ comment.getCommentOwner().getUserName() + "\n\t" + comment.getCommentBody() + "\n";
 					}
 				}
 			}
@@ -189,7 +189,7 @@ public class User {
 				if (!user.getUserPosts().isEmpty()) {
 					for (Post post : user.getUserPosts()) {
 						postCount += 1;
-						followedPostList += ("\nPost número " + postCount + "\n\t");
+						followedPostList += ("\nPost número " + postCount + "\t" + user.getUserName() + "\n\t");
 						followedPostList += post.toString();
 					}
 				}
@@ -198,7 +198,7 @@ public class User {
 		if (!this.getUserPosts().isEmpty()) {
 			for (Post post : this.getUserPosts()) {
 				postCount++;
-				followedPostList += ("\nPost número " + postCount + "\n\t");
+				followedPostList += ("\nPost número " + postCount + "\tde\t" + this.getUserName() + "\n\t");
 				followedPostList += post.toString();
 			}
 		}
