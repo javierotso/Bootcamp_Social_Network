@@ -129,7 +129,7 @@ public class User {
 				for (Comment comment : post.getCommentList()) {
 					if (comment.getCommentOwner().equals(this)) {
 						if (!showedPost) {
-							stringCommentList += "\nPOST\n\t" + post.toString();
+							stringCommentList += "\nPOST\n" + post.toString();
 							showedPost = true;
 						}
 						commentCount++;
@@ -287,8 +287,7 @@ public class User {
 
 		for (User user : userList.values()) {
 			for (User followed : user.getFollowedList().values()) {
-				if (this.getFollowedList().containsValue(followed) 
-						&& !this.getFollowedList().containsValue(user) 
+				if (this.getFollowedList().containsValue(followed) && !this.getFollowedList().containsValue(user)
 						&& !suggestions.contains(user) && !this.equals(user)) {
 					suggestions.add(user);
 				}

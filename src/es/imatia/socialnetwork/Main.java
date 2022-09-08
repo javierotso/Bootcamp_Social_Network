@@ -120,6 +120,7 @@ public class Main {
 					} else {
 						System.out.print("\nTodavía no has publicado ningún comentario\n");
 					}
+					
 					break;
 				case 7:
 					System.out.print(user.showOwnPostList());
