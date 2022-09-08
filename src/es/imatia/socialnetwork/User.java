@@ -127,13 +127,14 @@ public class User {
 			for (Post post : user.getUserPosts()) {
 				boolean showedPost = false;
 				for (Comment comment : post.getCommentList()) {
-					if (comment.getCommentOwner().equals(this)) {
+					if (comment.getCommentOwner().equals(this) || this.equals(user)) {
 						if (!showedPost) {
 							stringCommentList += "\nPOST\n" + post.toString();
 							showedPost = true;
 						}
 						commentCount++;
-						stringCommentList += "\nComentario " + commentCount + "\n\t" + comment.getCommentBody() + "\n";
+						stringCommentList += "\nComentario " + commentCount + "\t" + comment.getCommentOwner().getUserName()
+								+ "\n\t" + comment.getCommentBody() + "\n";
 					}
 				}
 			}
@@ -143,7 +144,7 @@ public class User {
 		}
 		return stringCommentList;
 	}
- 
+
 	public boolean deleteComment(HashMap<String, User> userList, Comment commentToDelete) {
 		boolean deleted = false;
 		for (User user : userList.values()) {
@@ -241,7 +242,7 @@ public class User {
 				for (Post post : user.getUserPosts()) {
 					if (!post.getCommentList().isEmpty()) {
 						for (Comment comment : post.getCommentList()) {
-							if (comment.getCommentOwner().equals(this)) {
+							if (comment.getCommentOwner().equals(this) || this.equals(user)) {
 								commentCount += 1;
 								commentList.put(commentCount, comment);
 							}
