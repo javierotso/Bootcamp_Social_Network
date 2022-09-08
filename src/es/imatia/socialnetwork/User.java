@@ -97,18 +97,19 @@ public class User {
 					for (Post post : user.getUserPosts()) {
 						// Finalmente, si el post tiene comentarios, recorremos la lista buscando alguno
 						// del usuario actual para eliminarlos
-						if(!post.getCommentList().isEmpty()) {
+						if (!post.getCommentList().isEmpty()) {
 							List<Comment> commentList = post.getCommentList();
-							for(int i = 0; i < commentList.size(); i++) {
-								if(commentList.get(i).getCommentOwner().equals(this)) {
+							for (int i = 0; i < commentList.size(); i++) {
+								if (commentList.get(i).getCommentOwner().equals(this)) {
 									commentList.remove(i);
 								}
 							}
 						}
 					}
 				}
-				//Ahora comprobamos si este usuario sigue al usuario a eliminar, para eliminarlo de la lista.
-				if(user.getFollowedList().containsKey(this.getUserName())) {
+				// Ahora comprobamos si este usuario sigue al usuario a eliminar, para
+				// eliminarlo de la lista.
+				if (user.getFollowedList().containsKey(this.getUserName())) {
 					user.getFollowedList().remove(this.getUserName());
 				}
 			}
@@ -124,8 +125,13 @@ public class User {
 		int commentCount = 0;
 		for (User user : userList.values()) {
 			for (Post post : user.getUserPosts()) {
+				boolean showedPost = false;
 				for (Comment comment : post.getCommentList()) {
 					if (comment.getCommentOwner().equals(this)) {
+						if (!showedPost) {
+							stringCommentList += "\nPOST\n\t" + post.toString();
+							showedPost = true;
+						}
 						commentCount++;
 						stringCommentList += "\nComentario " + commentCount + "\n\t" + comment.getCommentBody() + "\n";
 					}
@@ -138,7 +144,27 @@ public class User {
 		return stringCommentList;
 	}
 
-	public String showPostList() {
+	public boolean deleteComment(HashMap<String, User> userList, Comment commentToDelete) {
+		boolean deleted = false;
+		for (User user : userList.values()) {
+			if (!user.getUserPosts().isEmpty()) {
+				for (Post post : user.getUserPosts()) {
+					if (!post.getCommentList().isEmpty()) {
+						List<Comment> commentList = post.getCommentList();
+						for (int i = 0; i < commentList.size() && !deleted; i++) {
+							Comment comment = commentList.get(i);
+							if (comment.equals(commentToDelete)) {
+								deleted = post.deleteComment(comment);
+							}
+						}
+					}
+				}
+			}
+		}
+		return deleted;
+	}
+
+	public String showOwnPostList() {
 		String postListString = "";
 		if (!this.getUserPosts().isEmpty()) {
 			List<Post> postList = this.getUserPosts();
@@ -146,19 +172,85 @@ public class User {
 			for (Post uniPost : postList) {
 				postCount++;
 				postListString += ("\nPost número " + postCount + "\n\t");
-				if (uniPost.getClass().equals(Text.class)) {
-					postListString += ((Text) uniPost).getBody() + "\n";
-
-				} else if (uniPost.getClass().equals(Image.class)) {
-					postListString += ((Image) uniPost).getTitle() + "\n";
-				} else {
-					postListString += ((Video) uniPost).getTitle() + "\n";
-				}
-				postListString += uniPost.getPublishDate() + "\t" + uniPost.getCommentList().size() + " comentarios\n";
+				postListString += uniPost.toString();
 			}
 		} else {
 			System.out.print("\nNo tienes ningún post todavía\n");
 		}
 		return postListString;
+	}
+
+	public String showFollowedPostList() {
+		String followedPostList = "";
+		int postCount = 0;
+		if (!this.getFollowedList().isEmpty()) {
+			for (User user : this.getFollowedList().values()) {
+				if (!user.getUserPosts().isEmpty()) {
+					for (Post post : user.getUserPosts()) {
+						postCount += 1;
+						followedPostList += ("\nPost número " + postCount + "\n\t");
+						followedPostList += post.toString();
+					}
+				}
+			}
+		}
+		if (!this.getUserPosts().isEmpty()) {
+			for (Post post : this.getUserPosts()) {
+				postCount++;
+				followedPostList += ("\nPost número " + postCount + "\n\t");
+				followedPostList += post.toString();
+			}
+		}
+		if (followedPostList.isEmpty()) {
+			followedPostList = "\nTodavía no hay posts.\n";
+		}
+		return followedPostList;
+	}
+
+	/**
+	 * 
+	 * @return HashMap with user's post and all followed users posts
+	 */
+	public HashMap<Integer, Post> getFollowedPostList() {
+		HashMap<Integer, Post> followedPostList = new HashMap<>();
+		Integer postCount = 0;
+		if (!this.getFollowedList().isEmpty()) {
+			for (User user : this.getFollowedList().values()) {
+				if (!user.getUserPosts().isEmpty()) {
+					for (Post post : user.getUserPosts()) {
+						postCount++;
+						followedPostList.put(postCount, post);
+					}
+				}
+			}
+			if (!this.getUserPosts().isEmpty()) {
+				for (Post post : this.getUserPosts()) {
+					postCount++;
+					followedPostList.put(postCount, post);
+				}
+			}
+		}
+		return followedPostList;
+	}
+
+	public HashMap<Integer, Comment> getUserCommentList(HashMap<String, User> userList) {
+		HashMap<Integer, Comment> commentList = new HashMap<>();
+		Integer commentCount = 0;
+		for (User user : userList.values()) {
+			if (!user.getUserPosts().isEmpty()) {
+				for (Post post : user.getUserPosts()) {
+					if (!post.getCommentList().isEmpty()) {
+						for (Comment comment : post.getCommentList()) {
+							if (comment.getCommentOwner().equals(this)) {
+								commentCount += 1;
+								commentList.put(commentCount, comment);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return commentList;
 	}
 }

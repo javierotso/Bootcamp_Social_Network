@@ -28,6 +28,40 @@ public abstract class Post {
 	public ArrayList<Comment> getCommentList() {
 		return commentList;
 	}
-	
+
+	public boolean addComment(Comment comment) {
+		boolean added = false;
+		this.getCommentList().add(comment);
+		return added;
+	}
+
+	public boolean publishComment(String body, User owner) {
+		boolean added = false;
+		if (this.getCommentList().add(new Comment(body, LocalDateTime.now(), owner))) {
+			added = true;
+		}
+		return added;
+	}
+
+	public boolean deleteComment(Comment comment) {
+		boolean deleted = false;
+		if (this.getCommentList().remove(comment)) {
+			deleted = true;
+		}
+		return deleted;
+	}
+
+	@Override
+	public String toString() {
+		String postString = "";
+		if (this.getClass().equals(Text.class)) {
+			postString = ((Text) this).toString();
+		} else if (this.getClass().equals(Video.class)) {
+			postString = ((Video) this).toString();
+		} else if (this.getClass().equals(Image.class)) {
+			postString = ((Image) this).toString();
+		}
+		return postString;
+	}
 
 }

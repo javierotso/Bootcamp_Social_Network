@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Image extends Post {
 
 	private int DEFAULT_VALUE = 5;
-	
+
 	private String title;
 	private int height;
 	private int width;
@@ -17,7 +17,7 @@ public class Image extends Post {
 		this.setHeight(height);
 		this.setWidth(width);
 	}
-	
+
 	public Image(LocalDateTime publishDate, ArrayList<Comment> commentList, String title, int height, int width) {
 		super(publishDate, commentList);
 		this.setTitle(title);
@@ -60,4 +60,11 @@ public class Image extends Post {
 		}
 	}
 
+	@Override
+	public String toString() {
+		String postString = "";
+		postString += this.getTitle() + "\n";
+		postString += this.getPublishDate() + "\t" + this.getCommentList().size() + " comentarios\n";
+		return postString;
+	}
 }

@@ -11,7 +11,7 @@ public class Main {
 		HashMap<String, User> userList = new HashMap<>();
 
 		startTask(userList);
-		
+
 		int option = -1;
 
 		do {
@@ -21,21 +21,21 @@ public class Main {
 			try {
 				option = readPositiveInt();
 				switch (option) {
-					case 1:
-						createUser(userList);
-						break;
-					case 2:
-						User selectedUser = selectUser(userList);
-						if (selectedUser != null) {
-							userMenu(selectedUser, userList);
-						}
-						break;
-					case 0:
-						System.out.println("\n.......... S A L I E N D O ..........\n");
-						break;
-					default:
-						System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.");
+				case 1:
+					createUser(userList);
+					break;
+				case 2:
+					User selectedUser = selectUser(userList);
+					if (selectedUser != null) {
+						userMenu(selectedUser, userList);
 					}
+					break;
+				case 0:
+					System.out.println("\n.......... S A L I E N D O ..........\n");
+					break;
+				default:
+					System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.");
+				}
 			} catch (Exception e) {
 				System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.");
 				option = -1;
@@ -81,55 +81,71 @@ public class Main {
 			System.out.print("\n\t1. Publicar un nuevo post\n\t2. Publicar un nuevo comentario"
 					+ "\n\t3. Dejar de seguir a un usuario\n\t4. Seguir a un usuario.\n\t5. Eliminar un post"
 					+ "\n\t6. Eliminar un comentario\n\t7. Listar posts\n\t8. Listar tus comentarios"
-					+ "\n\t9. Mostrar comentarios\n\t10. Eliminar usuario\n\t0. Volver al menú principal"
+					+ "\n\t9. Eliminar usuario\n\t0. Volver al menú principal"
 					+ "\n¿Que acción desea realizar?: ");
 			try {
 				userOption = readPositiveInt();
 				switch (userOption) {
-					case 1:
-						newPost(user);
-						break;
-					case 2:
-						break;
-					case 3:
-						unfollowUser(user);
-						break;
-					case 4:
-						followUser(userList, user);
-						break;
-					case 5:
-						deletePost(user);
-						break;
-					case 6:
-						break;
-					case 7:
-						System.out.print(user.showPostList());
-						break;
-					case 8:
-						System.out.print(user.showUserCommentList(userList));
-						break;
-					case 9:
-						
-						break;
-					case 10:
-						System.out.print("\nSe eliminarán todos tus post, comentarios, lista de seguidores... Escriba CONFIRMAR para proceder: ");
-						if(sc.nextLine().equalsIgnoreCase("confirmar")) {
-							if(user.deleteUser(userList)) {
-								System.out.print("\nUsuario eliminado correctamente.\n");
-								userOption = 0;
+				case 1:
+					newPost(user);
+					break;
+				case 2:
+					if (!user.getFollowedPostList().isEmpty()) {
+						publishComment(user);
+					} else {
+						System.out.print("\nTodavía no hay post\n");
+					}
+					break;
+				case 3:
+					unfollowUser(user);
+					break;
+				case 4:
+					followUser(userList, user);
+					break;
+				case 5:
+					deletePost(user);
+					break;
+				case 6:
+					if(!user.getUserCommentList(userList).isEmpty()) {
+						System.out.print(user.showUserCommentList(userList) + "\n¿Que número de comentario deseas eliminar?: ");
+						Comment comment = user.getUserCommentList(userList).get(readPositiveInt());
+						if(comment != null) {
+							if(user.deleteComment(userList, comment)) {
+								System.out.print("\nSe ha eliminado el comentario.\n");
 							} else {
 								System.out.print("\nNo ha sido posible realizar la acción.\n");
 							}
 						}
-						break;
-					case 0:
-						System.out.println("\n.......... Volviendo al menú principal ..........");
-						break;
-					default:
-						System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.\n");
+					} else {
+						System.out.print("\nTodavía no has publicado ningún comentario\n");
 					}
+					break;
+				case 7:
+					System.out.print(user.showOwnPostList());
+					break;
+				case 8:
+					System.out.print(user.showUserCommentList(userList));
+					break;
+				case 9:
+					System.out.print(
+							"\nSe eliminarán todos tus post, comentarios, lista de seguidores... Escriba CONFIRMAR para proceder: ");
+					if (sc.nextLine().equalsIgnoreCase("confirmar")) {
+						if (user.deleteUser(userList)) {
+							System.out.print("\nUsuario eliminado correctamente.\n");
+							userOption = 0;
+						} else {
+							System.out.print("\nNo ha sido posible realizar la acción.\n");
+						}
+					}
+					break;
+				case 0:
+					System.out.println("\n.......... Volviendo al menú principal ..........");
+					break;
+				default:
+					System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.\n");
+				}
 			} catch (Exception e) {
-				System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.");
+				System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.\n");
 				userOption = -1;
 			}
 		}
@@ -144,65 +160,65 @@ public class Main {
 			try {
 				int postOption = readPositiveInt();
 				switch (postOption) {
-					case 1:
-						System.out.print("\nIntroduzca el título de la imagen: ");
-						String picTitle = sc.nextLine();
-						System.out.print("\nIntroduzca el alto de la imagen: ");
-						int height = readPositiveInt();
-						System.out.print("\nIntroduzca el ancho de la imagen: ");
-						int width = readPositiveInt();
-						if (user.getUserPosts().add(new Image(picTitle, height, width))) {
-							System.out.print("\nPost creado correctamente.\n");
-						} else {
-							System.out.print("\nHa ocurrido un error, inténtelo de nuevo más tarde.\n");
-						}
-						created = true;
-						break;
-					case 2:
-						System.out.print("\nIntroduzca el cuerpo del post: ");
-						String body = sc.nextLine();
-						if (user.getUserPosts().add(new Text(body))) {
-							System.out.print("\nPost creado correctamente.\n");
-						} else {
-							System.out.print("\nHa ocurrido un error, inténtelo de nuevo más tarde.\n");
-						}
-						created = true;
-						break;
-					case 3:
-						System.out.print("\nIntroduzca el título del video: ");
-						String videoTitle = sc.nextLine();
-						System.out.print("\nIntroduzca la calidad del vídeo (720, 1080...): ");
-						int videoQuality = readPositiveInt();
-						System.out.print("\nIntroduzca la duración del vídeo (en segundos): ");
-						int videoDuration = readPositiveInt();
-						if (user.getUserPosts().add(new Video(videoDuration, videoQuality, videoTitle))) {
-							System.out.print("\nPost creado correctamente.\n");
-						} else {
-							System.out.print("\nHa ocurrido un error, inténtelo de nuevo más tarde.\n");
-						}
-						created = true;
-						break;
-					case 0:
-						System.out.print("\nOperación cancelada\n");
-						created = true;
-						break;
-					default:
-						System.out.print("\nOpción seleccionada no válida\n");
+				case 1:
+					System.out.print("\nIntroduzca el título de la imagen: ");
+					String picTitle = sc.nextLine();
+					System.out.print("\nIntroduzca el alto de la imagen: ");
+					int height = readPositiveInt();
+					System.out.print("\nIntroduzca el ancho de la imagen: ");
+					int width = readPositiveInt();
+					if (user.getUserPosts().add(new Image(picTitle, height, width))) {
+						System.out.print("\nPost creado correctamente.\n");
+					} else {
+						System.out.print("\nHa ocurrido un error, inténtelo de nuevo más tarde.\n");
 					}
+					created = true;
+					break;
+				case 2:
+					System.out.print("\nIntroduzca el cuerpo del post: ");
+					String body = sc.nextLine();
+					if (user.getUserPosts().add(new Text(body))) {
+						System.out.print("\nPost creado correctamente.\n");
+					} else {
+						System.out.print("\nHa ocurrido un error, inténtelo de nuevo más tarde.\n");
+					}
+					created = true;
+					break;
+				case 3:
+					System.out.print("\nIntroduzca el título del video: ");
+					String videoTitle = sc.nextLine();
+					System.out.print("\nIntroduzca la calidad del vídeo (720, 1080...): ");
+					int videoQuality = readPositiveInt();
+					System.out.print("\nIntroduzca la duración del vídeo (en segundos): ");
+					int videoDuration = readPositiveInt();
+					if (user.getUserPosts().add(new Video(videoDuration, videoQuality, videoTitle))) {
+						System.out.print("\nPost creado correctamente.\n");
+					} else {
+						System.out.print("\nHa ocurrido un error, inténtelo de nuevo más tarde.\n");
+					}
+					created = true;
+					break;
+				case 0:
+					System.out.print("\nOperación cancelada\n");
+					created = true;
+					break;
+				default:
+					System.out.print("\nOpción seleccionada no válida\n");
+				}
 			} catch (Exception e) {
 				sc.nextLine();
 				System.out.print("\nOpción seleccionada no válida\n");
 			}
 		}
 	}
-	
+
 	public static void deletePost(User user) {
-		if(!user.getUserPosts().isEmpty()) {
-			System.out.print(user.showPostList());
+		if (!user.getUserPosts().isEmpty()) {
+			System.out.print(user.showOwnPostList());
 			System.out.print("\n¿Indique el número de post que desea eliminar (0 para cancelar): ");
-			if(user.deletePost(readPositiveInt())) {
+			if (user.deletePost(readPositiveInt())) {
 				System.out.print("\nPost eliminado correctamente\n");
-			}else {
+			} else {
 				System.out.print("\nPost seleccionado no válido\n");
 			}
 		} else {
@@ -227,6 +243,24 @@ public class Main {
 		return num;
 	}
 
+	public static void publishComment(User user) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print(user.showFollowedPostList());
+		System.out.print("\n¿Indique el número de post en el que desea publicar el comentario (0 para cancelar): ");
+		Post selectedPost = user.getFollowedPostList().get(readPositiveInt());
+		if (selectedPost != null) {
+			System.out.print("\nIntroduzca el comentario: ");
+			String body = sc.nextLine();
+			if (selectedPost.publishComment(body, user)) {
+				System.out.print("\nComentario publicado correctamente.\n");
+			} else {
+				System.out.print("\nNo se ha podido publicar el comentario.\n");
+			}
+		} else {
+			System.out.print("\nPost seleccionado no válido\n");
+		}
+	}
+
 	public static void followUser(HashMap<String, User> userList, User user) {
 		Scanner sc = new Scanner(System.in);
 		if (userList.size() > user.getFollowedList().size()) {
@@ -238,7 +272,7 @@ public class Main {
 			}
 			System.out.print("\n¿A quién quieres seguir?: ");
 			String userName = sc.nextLine();
-			if(user.followUser(userList, userName)) {
+			if (user.followUser(userList, userName)) {
 				System.out.print("\nAhora sigues a " + userName + "\n");
 			} else {
 				System.out.print("\nNo existe el usuario seleccionado\n");
@@ -258,7 +292,7 @@ public class Main {
 			}
 			System.out.print("\n¿Que usuario deseas dejar de seguir?: ");
 			String userName = sc.nextLine();
-			if(user.unfollowUser(userName)) {
+			if (user.unfollowUser(userName)) {
 				System.out.print("\nYa no sigues a " + userName + "\n");
 			} else {
 				System.out.print("\nNo se ha podido realizar la acción\n");
@@ -269,7 +303,7 @@ public class Main {
 	}
 	
 	public static void startTask(HashMap<String, User> userList) {
-		//Usuarios
+		// Usuarios
 		userList.put("pepe", new User("pepe"));
 		userList.put("manolita", new User("manolita"));
 		userList.put("juan", new User("juan"));
@@ -277,30 +311,32 @@ public class Main {
 		userList.put("sandra", new User("sandra"));
 		userList.put("diego", new User("diego"));
 		userList.put("c", new User("carlos"));
-		
-		//seguidores de pepe
+
+		// seguidores de pepe
 		userList.get("pepe").getFollowedList().put("manolita", userList.get("manolita"));
 		userList.get("pepe").getFollowedList().put("diego", userList.get("diego"));
-		
-		//seguidores de manolita
+
+		// seguidores de manolita
 		userList.get("manolita").getFollowedList().put("juan", userList.get("juan"));
 		userList.get("manolita").getFollowedList().put("diego", userList.get("diego"));
 
-		
-		//post de pepe
-		Post imagpepe = new Image (LocalDateTime.of(2022, 5, 4, 22, 35),new ArrayList<Comment>(), "Selfie.jpg", 400, 450);
-		Post textpepe = new Text (LocalDateTime.of(2022, 4, 1, 13, 42), new ArrayList<Comment>(), "Hoy salí de acampada");
-		
-		//comentarios de diego y manolita en el post de pepe
-		Comment commenttextpepediego = new Comment("Menuda suerte", LocalDateTime.of(2022, 4, 2, 23, 42), userList.get("diego"));
-		Comment commenttextpepemanolita = new Comment("Espero que no lloviese", LocalDateTime.of(2022, 4, 2, 22, 37), userList.get("manolita"));
-		
+		// post de pepe
+		Post imagpepe = new Image(LocalDateTime.of(2022, 5, 4, 22, 35), new ArrayList<Comment>(), "Selfie.jpg", 400,
+				450);
+		Post textpepe = new Text(LocalDateTime.of(2022, 4, 1, 13, 42), new ArrayList<Comment>(),
+				"Hoy salí de acampada");
+
+		// comentarios de diego y manolita en el post de pepe
+		Comment commenttextpepediego = new Comment("Menuda suerte", LocalDateTime.of(2022, 4, 2, 23, 42),
+				userList.get("diego"));
+		Comment commenttextpepemanolita = new Comment("Espero que no lloviese", LocalDateTime.of(2022, 4, 2, 22, 37),
+				userList.get("manolita"));
+
 		textpepe.getCommentList().add(commenttextpepediego);
 		textpepe.getCommentList().add(commenttextpepemanolita);
-		
+
 		userList.get("pepe").addPost(textpepe);
 		userList.get("pepe").addPost(imagpepe);
-		
-	
+
 	}
 }

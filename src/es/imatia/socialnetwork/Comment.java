@@ -30,7 +30,5 @@ public class Comment {
 	}
 	public void setCommentOwner(User commentOwner) {
 		this.commentOwner = commentOwner;
-	}
-	
-	
+	}	
 }
