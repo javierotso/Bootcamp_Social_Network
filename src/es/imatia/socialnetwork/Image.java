@@ -3,7 +3,7 @@ package es.imatia.socialnetwork;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Image extends Post {
+public class Image extends Post implements Comparable <Post>{
 
 	private int DEFAULT_VALUE = 5;
 
@@ -63,7 +63,7 @@ public class Image extends Post {
 	@Override
 	public String toString() {
 		String postString = "";
-		postString += this.getTitle() + "\n";
+		postString += "\t" + this.getTitle() + "\n";
 		postString += this.getPublishDate() + "\t" + this.getCommentList().size() + " comentarios\n";
 		return postString;
 	}

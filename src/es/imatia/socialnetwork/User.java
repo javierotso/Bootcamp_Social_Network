@@ -1,6 +1,7 @@
 package es.imatia.socialnetwork;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -252,5 +253,55 @@ public class User {
 		}
 
 		return commentList;
+	}
+
+	public String showWall() {
+		String wall = "";
+		/*
+		 * Convertimos Array de object a array de post
+		 */
+		if (!this.getFollowedPostList().isEmpty()) {
+			wall += "\n####################################\n\tMURO DE" + this.getUserName().toUpperCase()
+					+ "\t\n####################################\n";
+			Object[] auxPostList = this.getFollowedPostList().values().toArray();
+			List<Post> postList = new ArrayList<>();
+			for (int i = 0; i < auxPostList.length; i++) {
+				postList.add((Post) auxPostList[i]);
+			}
+			/*
+			 * Lo ordenamos
+			 */
+			postList.sort(null);
+			// Creamos el String
+			for (int i = 0; i < 10 && i < postList.size(); i++) {
+				wall += "\n" + postList.get(i).toString();
+			}
+		}
+		return wall;
+	}
+
+	public String friendsSuggestion(HashMap<String, User> userList) {
+		String friends = "\n______Sugerencias de amistad_____\n";
+		List<User> suggestions = new ArrayList<>();
+
+		for (User user : userList.values()) {
+			for (User followed : user.getFollowedList().values()) {
+				if (this.getFollowedList().containsValue(followed) 
+						&& !this.getFollowedList().containsValue(user) 
+						&& !suggestions.contains(user) && !this.equals(user)) {
+					suggestions.add(user);
+				}
+			}
+		}
+
+		if (!suggestions.isEmpty()) {
+			friends = "\n______Sugerencias de amistad_____\n";
+			for (User user : suggestions) {
+				friends += "\n" + user.getUserName();
+			}
+		} else {
+			friends = "\nTodavía no hay amigos para sugerir\n";
+		}
+		return friends;
 	}
 }

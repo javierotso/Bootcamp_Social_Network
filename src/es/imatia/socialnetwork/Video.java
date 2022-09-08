@@ -3,7 +3,7 @@ package es.imatia.socialnetwork;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Video extends Post {
+public class Video extends Post  implements Comparable <Post> {
 	private final int DEFAULT_QUALITY = 1080;
 	private final int DEFAULT_DURATION = 60;
 
@@ -62,8 +62,9 @@ public class Video extends Post {
 
 	public String toString() {
 		String postString = "";
-		postString += this.getTitle() + "\n";
+		postString += "\t" + this.getTitle() + "\n";
 		postString += this.getPublishDate() + "\t" + this.getCommentList().size() + " comentarios\n";
 		return postString;
 	}
+	
 }

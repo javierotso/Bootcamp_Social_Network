@@ -3,6 +3,7 @@ package es.imatia.socialnetwork;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -81,8 +82,8 @@ public class Main {
 			System.out.print("\n\t1. Publicar un nuevo post\n\t2. Publicar un nuevo comentario"
 					+ "\n\t3. Dejar de seguir a un usuario\n\t4. Seguir a un usuario.\n\t5. Eliminar un post"
 					+ "\n\t6. Eliminar un comentario\n\t7. Listar posts\n\t8. Listar tus comentarios"
-					+ "\n\t9. Eliminar usuario\n\t0. Volver al menú principal"
-					+ "\n¿Que acción desea realizar?: ");
+					+ "\n\t9. Eliminar usuario\n\t10. Mostrar muro\n\t0. Volver al menú principal"
+					+ "\n\t11. Sugerencias de amistad\n¿Que acción desea realizar?: ");
 			try {
 				userOption = readPositiveInt();
 				switch (userOption) {
@@ -137,6 +138,12 @@ public class Main {
 							System.out.print("\nNo ha sido posible realizar la acción.\n");
 						}
 					}
+					break;
+				case 10:
+					System.out.print(user.showWall());
+					break;
+				case 11:
+					System.out.print(user.friendsSuggestion(userList));
 					break;
 				case 0:
 					System.out.println("\n.......... Volviendo al menú principal ..........");
