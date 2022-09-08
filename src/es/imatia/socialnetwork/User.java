@@ -275,6 +275,8 @@ public class User {
 			for (int i = 0; i < 10 && i < postList.size(); i++) {
 				wall += "\n" + postList.get(i).toString();
 			}
+		} else {
+			wall = "\nTus contactos todavía no han publicado nada\n";
 		}
 		return wall;
 	}
