@@ -31,4 +31,9 @@ public class Comment {
 	public void setCommentOwner(User commentOwner) {
 		this.commentOwner = commentOwner;
 	}	
+	
+	@Override
+	public String toString() {
+		return (this.getCommentOwner().getUserName() + "\n\t" + this.getCommentBody() + "\n");
+	}
 }

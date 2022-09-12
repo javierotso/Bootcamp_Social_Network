@@ -35,7 +35,7 @@ public class Main {
 					System.out.println("\n.......... S A L I E N D O ..........\n");
 					break;
 				default:
-					System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.");
+					System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.\n");
 				}
 			} catch (Exception e) {
 				System.out.print("\n¡ERROR! Por favor, selecciona una opción de la lista.");
@@ -82,8 +82,8 @@ public class Main {
 			System.out.print("\n\t1. Publicar un nuevo post\n\t2. Publicar un nuevo comentario"
 					+ "\n\t3. Dejar de seguir a un usuario\n\t4. Seguir a un usuario.\n\t5. Eliminar un post"
 					+ "\n\t6. Eliminar un comentario\n\t7. Listar posts\n\t8. Listar tus comentarios"
-					+ "\n\t9. Eliminar usuario\n\t10. Mostrar muro\n\t11. Sugerencias de amistad"
-					+ "\n\t0. Volver al menú principal\n¿Que acción desea realizar?: ");
+					+ "\n\t9. Eliminar usuario\n\t10. Mostrar comentarios de post\n\t11. Mostrar muro"
+					+ "\n\t12. Sugerencias de amistad\n\t0. Volver al menú principal\n¿Que acción desea realizar?: ");
 			try {
 				userOption = readPositiveInt();
 				switch (userOption) {
@@ -141,11 +141,19 @@ public class Main {
 					}
 					break;
 				case 10:
-					System.out.print(user.showWall());
+					if (!user.getFollowedPostList().isEmpty()) {
+						showCommentList(user);
+					} else {
+						System.out.print("\nTodavía no hay post\n");
+					}
 					break;
 				case 11:
+					System.out.print(user.showWall());
+					break;
+				case 12:
 					System.out.print(user.friendsSuggestion(userList));
 					break;
+			
 				case 0:
 					System.out.println("\n.......... Volviendo al menú principal ..........");
 					break;
@@ -268,6 +276,19 @@ public class Main {
 			System.out.print("\nPost seleccionado no válido\n");
 		}
 	}
+	
+	public static void showCommentList(User user) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print(user.showFollowedPostList());
+		System.out.print("\n¿Indique el número de post en el que desea ver los comentarios (0 para cancelar): ");
+		Post selectedPost = user.getFollowedPostList().get(readPositiveInt());
+		if (selectedPost != null) {
+			System.out.print(selectedPost.showCommentList());
+		} else {
+			System.out.print("\nPost seleccionado no válido\n");
+		}
+	}
+	
 
 	public static void followUser(HashMap<String, User> userList, User user) {
 		Scanner sc = new Scanner(System.in);

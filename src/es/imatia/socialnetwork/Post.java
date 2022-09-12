@@ -3,7 +3,7 @@ package es.imatia.socialnetwork;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public abstract class Post implements Comparable<Post>{
+public abstract class Post {
 	protected LocalDateTime publishDate;
 	protected ArrayList<Comment> commentList;
 
@@ -52,21 +52,22 @@ public abstract class Post implements Comparable<Post>{
 	}
 
 	@Override
-	public String toString() {
-		String postString = "";
-		if (this.getClass().equals(Text.class)) {
-			postString = "\t" + ((Text) this).toString();
-		} else if (this.getClass().equals(Video.class)) {
-			postString = "\t" +((Video) this).toString();
-		} else if (this.getClass().equals(Image.class)) {
-			postString = "\t" +((Image) this).toString();
-		}
-		return postString;
-	}
+	public abstract String toString();
 	
-	@Override
 	public int compareTo(Post p) {
 		return (p.getPublishDate().compareTo(this.getPublishDate()));
 	}
 
+	public String showCommentList() {
+		String comments = this.toString();
+		if(!this.commentList.isEmpty()) {
+			for(int i =0; i < this.commentList.size(); i++) {
+				comments += "\nComentario " + (i+1) + "\tde\t"
+						+ this.getCommentList().get(i).toString();
+			}
+		} else {
+			comments += "\nNo hay comentarios todavía.\n";
+		}
+		return comments;
+	}
 }
