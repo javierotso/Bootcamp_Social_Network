@@ -57,7 +57,8 @@ public class User {
 
 	public boolean followUser(HashMap<String, User> userList, String userName) {
 		boolean followed = false;
-		if (!this.getFollowedList().containsKey(userName) && userList.containsKey(userName) && !this.getUserName().equals(userName)) {
+		if (!this.getFollowedList().containsKey(userName) && userList.containsKey(userName)
+				&& !this.getUserName().equals(userName)) {
 			this.getFollowedList().put(userName, userList.get(userName));
 			followed = true;
 		}
@@ -133,8 +134,7 @@ public class User {
 							showedPost = true;
 						}
 						commentCount++;
-						stringCommentList += "\nComentario " + commentCount + "\t"
-								+ comment.toString();
+						stringCommentList += "\nComentario " + commentCount + "\t" + comment.toString();
 					}
 				}
 			}
@@ -289,20 +289,22 @@ public class User {
 		for (User user : userList.values()) {
 			for (User followed : user.getFollowedList().values()) {
 				/*
-				 * USER follows someone followed by this AND this doesn't follow user  
+				 * USER follows someone followed by this AND this doesn't follow user
 				 */
 				if (this.getFollowedList().containsValue(followed) && !this.getFollowedList().containsValue(user)
 						&& !suggestions.contains(user) && !this.equals(user)) {
 					suggestions.add(user);
 				}
 				/*
-				 * USER follows THIS and  it's not reciprocal
+				 * USER follows THIS and it's not reciprocal
 				 */
-				if (followed.equals(this) && !this.getFollowedList().containsValue(user) && !suggestions.contains(user)) {
+				if (followed.equals(this) && !this.getFollowedList().containsValue(user)
+						&& !suggestions.contains(user)) {
 					suggestions.add(user);
 				}
 			}
-		}		if (!suggestions.isEmpty()) {
+		}
+		if (!suggestions.isEmpty()) {
 			friends = "\n______Sugerencias de amistad_____\n";
 			for (User user : suggestions) {
 				friends += "\n" + user.getUserName();
@@ -312,5 +314,5 @@ public class User {
 		}
 		return friends;
 	}
-	
+
 }
