@@ -289,7 +289,7 @@ public class User {
 		for (User user : userList.values()) {
 			for (User followed : user.getFollowedList().values()) {
 				/*
-				 * USER follows someone THIS follows AND this doesn't follow user  
+				 * USER follows someone followed by this AND this doesn't follow user  
 				 */
 				if (this.getFollowedList().containsValue(followed) && !this.getFollowedList().containsValue(user)
 						&& !suggestions.contains(user) && !this.equals(user)) {
